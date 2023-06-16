@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class Posts extends Component {
 
@@ -12,7 +13,7 @@ class Posts extends Component {
     }
 
     componentDidMount() {
-        fetch("https://blogtai.herokuapp.com/api/posts")
+        fetch(`http://localhost:3001/api/posts`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -36,21 +37,21 @@ class Posts extends Component {
         const {items} = this.state;
 
         return (
-            <React.Fragment>
-                {items.map((item, key) => {
-                    return <div key={key}>
+            <div className="post-list">
+                <h2 className="post-list-title">Posts</h2>
+                {items.map((item) => {
+                    return <div key={item.id}>
                         <div className="card">
-                            <img className="card-img-top" src="..." alt="Card image cap" />
+                            <img className="card-img-top" src={item.image} alt={item.title} />
                                 <div className="card-body">
-                                    <h5 className="card-title">Card title</h5>
-                                    <p className="card-text">Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.</p>
-                                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                                    <h5 className="card-title">{item.title}</h5>
+                                    <p className="card-text">{item.text}</p>
+                                    <Link to={'post/'+item.id} className="btn btn-primary">Details</Link>
                                 </div>
                         </div>
                     </div>
                 })}
-            </React.Fragment>)
+            </div>)
     }
 }
 
